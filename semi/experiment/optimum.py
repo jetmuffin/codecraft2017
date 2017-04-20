@@ -1,12 +1,15 @@
 import re
 
 
-def parse_case(str):
-	index = str.find("case_example")
-	return str[index + 13 :].replace("/", ".").replace(".txt", "")
+def parse_case(s):
+	index = s.find("case_example")
+	if index > 0:
+		return s[index + 13 :].replace("/", ".").replace(".txt", "")
+	else:
+		return s.replace("/", ".").replace(".txt", "")
 
 	
-def read_optimum(case_file):
+def read_optimum(case_file=None):
 	with open("optimum_solution") as f:
 		optimum_solution = {}
 		while True:
@@ -25,7 +28,9 @@ def read_optimum(case_file):
 				'solution': servers
 			}
 
-		if optimum_solution.has_key(case_file):
+		if not case_file:
+			return optimum_solution
+		elif optimum_solution.has_key(case_file):
 			return optimum_solution[case_file]
 		else:
 			return None
